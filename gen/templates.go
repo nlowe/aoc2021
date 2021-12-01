@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/profile"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-{{ if .N | gt 0 }}
+{{- if gt .N 0 }}
 {{ range $day := seq 1 .N }}
 	"github.com/nlowe/aoc2021/challenge/day{{ $day }}"
 {{- end }}

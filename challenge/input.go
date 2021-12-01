@@ -8,6 +8,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/nlowe/aoc2021/util"
+
 	"github.com/spf13/viper"
 )
 
@@ -67,9 +69,31 @@ func (c *Input) Lines() <-chan string {
 	return c.lines
 }
 
+func (c *Input) Ints() <-chan int {
+	result := make(chan int)
+
+	go func() {
+		defer close(result)
+
+		for line := range c.lines {
+			result <- util.MustAtoI(line)
+		}
+	}()
+
+	return result
+}
+
 func (c *Input) LineSlice() (result []string) {
 	for line := range c.Lines() {
 		result = append(result, line)
+	}
+
+	return
+}
+
+func (c *Input) IntSlice() (result []int) {
+	for line := range c.Lines() {
+		result = append(result, util.MustAtoI(line))
 	}
 
 	return

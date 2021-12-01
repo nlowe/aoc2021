@@ -9,11 +9,13 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/nlowe/aoc2021/challenge/day1"
 	"github.com/nlowe/aoc2021/challenge/example"
 )
 
 func addDays(root *cobra.Command) {
 	example.AddCommandsTo(root)
+	day1.AddCommandsTo(root)
 }
 
 type prof interface {

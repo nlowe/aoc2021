@@ -20,9 +20,9 @@ To run a solution, use the problem name followed by the path to an input file.
 For example, to run problem 2a:
 
 ```bash
-$ go run ./main.go 2a ./day2/input.txt
-Answer: 9633
-Took 999.4µs
+$ go run main.go 1 a
+Answer: 1532
+Took 1.5586ms
 ```
 
 ## Adding New Solutions
@@ -35,6 +35,8 @@ following for each day that is currently accessible:
 * `challenge/day<N>/import.go`: A "glue" file combining commands for both of the day's problems to simplify wiring up subcommands
 * `challenge/day<N>/a.go`: The main problem implementation, containing a cobra command `A` and the implementation `func a(*challenge.Input) int`
 * `challenge/day<N>/a_test.go`: A basic test template
+* `challenge/day<N>/b.go`: The main problem implementation, containing a cobra command `B` and the implementation `func b(*challenge.Input) int`
+* `challenge/day<N>/b_test.go`: A basic test template
 * `challenge/day<N>/input.txt`: The challenge input
 
 Additionally, `challenge/cmd/cmd.go` will be regenerated to import and add all

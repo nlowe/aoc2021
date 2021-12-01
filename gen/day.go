@@ -49,9 +49,17 @@ func main() {
 
 	_ = os.Remove(p)
 	genFile(p, rootTemplate, funcs, metadata{N: n})
+	goimports(p)
 
 	for day := 1; day <= n; day++ {
 		genDay(day)
+	}
+}
+
+func goimports(file string) {
+	goimports := exec.Command("goimports", "-local", "github.com/nlowe/aoc2021", "-w", file)
+	if err := goimports.Run(); err != nil {
+		abort(err)
 	}
 }
 
@@ -103,10 +111,7 @@ func genDay(n int) {
 		genFile(filepath.Join(p, "benchmark_test.go"), benchmarkTemplate, funcs, metadata{N: n})
 	}
 
-	goimports := exec.Command("goimports", "-w", p)
-	if err := goimports.Run(); err != nil {
-		abort(err)
-	}
+	goimports(p)
 
 	if _, stat := os.Stat(filepath.Join(p, "input.txt")); os.IsNotExist(stat) {
 		generated = true

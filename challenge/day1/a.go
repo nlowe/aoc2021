@@ -22,15 +22,10 @@ func partA(challenge *challenge.Input) int {
 	measurements := challenge.IntSlice()
 
 	count := 0
-	last := measurements[0]
 	for i := 1; i < len(measurements); i++ {
-		current := measurements[i]
-
-		if current > last {
+		if measurements[i] > measurements[i-1] {
 			count++
 		}
-
-		last = current
 	}
 
 	return count

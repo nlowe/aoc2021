@@ -26,15 +26,11 @@ func partB(challenge *challenge.Input) int {
 		windows = append(windows, measurements[i]+measurements[i+1]+measurements[i+2])
 	}
 
-	last := windows[0]
 	count := 0
-
 	for i := 1; i < len(windows); i++ {
-		if windows[i] > last {
+		if windows[i] > windows[i-1] {
 			count++
 		}
-
-		last = windows[i]
 	}
 
 	return count

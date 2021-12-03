@@ -49,7 +49,7 @@ func search(input []string, filter func(rune, rune) rune) int {
 			}
 		}
 
-		remaining = left[:]
+		remaining = left
 		offset++
 	}
 

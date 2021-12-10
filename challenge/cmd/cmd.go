@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/nlowe/aoc2021/challenge/day1"
+	"github.com/nlowe/aoc2021/challenge/day10"
 	"github.com/nlowe/aoc2021/challenge/day2"
 	"github.com/nlowe/aoc2021/challenge/day3"
 	"github.com/nlowe/aoc2021/challenge/day4"
@@ -33,6 +34,7 @@ func addDays(root *cobra.Command) {
 	day7.AddCommandsTo(root)
 	day8.AddCommandsTo(root)
 	day9.AddCommandsTo(root)
+	day10.AddCommandsTo(root)
 }
 
 type prof interface {

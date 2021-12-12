@@ -32,17 +32,17 @@ func partB(challenge *challenge.Input) int {
 	solutions := map[string]struct{}{}
 
 	for n := range nodes {
-		if n == "start" || n == "end" || strings.ToLower(n) != n {
+		if n == start || n == end || strings.ToLower(n) != n {
 			continue
 		}
 
-		for _, edge := range nodes["start"] {
+		for _, edge := range nodes[start] {
 			distinctPathsWithVisitTwice(
 				nodes,
 				edge,
 				n,
 				false,
-				"start",
+				start,
 				solutions,
 			)
 		}
@@ -51,13 +51,13 @@ func partB(challenge *challenge.Input) int {
 	return len(solutions)
 }
 
-func distinctPathsWithVisitTwice(nodes map[string][]string, start string, canVisitTwice string, alreadyVisitedTwice bool, path string, solutions map[string]struct{}) {
-	if start == "end" {
+func distinctPathsWithVisitTwice(nodes map[string][]string, startAt string, canVisitTwice string, alreadyVisitedTwice bool, path string, solutions map[string]struct{}) {
+	if startAt == end {
 		solutions[path] = struct{}{}
 		return
 	}
 
-	for _, to := range nodes[start] {
+	for _, to := range nodes[startAt] {
 		// Small node?
 		secondVisit := alreadyVisitedTwice
 
@@ -80,7 +80,7 @@ func distinctPathsWithVisitTwice(nodes map[string][]string, start string, canVis
 			to,
 			canVisitTwice,
 			secondVisit,
-			fmt.Sprintf("%s,%s", path, start),
+			fmt.Sprintf("%s,%s", path, startAt),
 			solutions,
 		)
 	}

@@ -9,6 +9,11 @@ import (
 	"github.com/nlowe/aoc2021/challenge"
 )
 
+const (
+	start = "start"
+	end   = "end"
+)
+
 func aCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "a",
@@ -31,20 +36,20 @@ func partA(challenge *challenge.Input) int {
 
 	count := 0
 
-	for _, edge := range nodes["start"] {
-		count += distinctPaths(nodes, edge, map[string]struct{}{"start": {}})
+	for _, edge := range nodes[start] {
+		count += distinctPaths(nodes, edge, map[string]struct{}{start: {}})
 	}
 
 	return count
 }
 
-func distinctPaths(nodes map[string][]string, start string, seen map[string]struct{}) (count int) {
-	if start == "end" {
+func distinctPaths(nodes map[string][]string, startAt string, seen map[string]struct{}) (count int) {
+	if startAt == end {
 		return 1
 	}
 
-	seen[start] = struct{}{}
-	for _, to := range nodes[start] {
+	seen[startAt] = struct{}{}
+	for _, to := range nodes[startAt] {
 		// Small node?
 		_, visited := seen[to]
 		if visited && strings.ToLower(to) == to {

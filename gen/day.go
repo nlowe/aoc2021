@@ -8,14 +8,11 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"text/template"
 	"time"
 
 	"github.com/nlowe/aoc2021/util"
-	"github.com/zellyn/kooky"
-	"github.com/zellyn/kooky/chrome"
 )
 
 var (
@@ -151,35 +148,11 @@ func genFile(path, t string, funcs template.FuncMap, m metadata) {
 	}
 }
 
-func chromeCookiePath() (string, error) {
-	if p, set := os.LookupEnv("CHROME_PROFILE_PATH"); set {
-		return filepath.Join(p, "Cookies"), nil
-	}
-
-	if runtime.GOOS == "windows" {
-		localAppData, err := os.UserCacheDir()
-		return filepath.Join(localAppData, "Google", "Chrome", "User Data", "Default", "Cookies"), err
-	}
-
-	return "", fmt.Errorf("chrome cookie path for GOOS %s not implemented, set CHROME_PROFILE_PATH instead", runtime.GOOS)
-}
-
 func getInput(day int) ([]byte, error) {
-	_, _ = os.UserConfigDir()
-	_, _ = os.UserCacheDir()
-
-	cookiePath, err := chromeCookiePath()
-	if err != nil {
-		return nil, err
-	}
-
-	cookies, err := chrome.ReadCookies(cookiePath, kooky.Valid, kooky.Name("session"), kooky.Domain(".adventofcode.com"))
-	if err != nil {
-		return nil, err
-	}
-
-	if len(cookies) != 1 {
-		return nil, fmt.Errorf("session cookie not found or too many results. Got %d, want 1, ensure that you are logged in", len(cookies))
+	// TODO: Revert back to kooky when https://github.com/zellyn/kooky/issues/49 is fixed
+	token, set := os.LookupEnv("AOC_SESSION_TOKEN")
+	if !set {
+		return nil, fmt.Errorf("AOC_SESSION_TOKEN not set")
 	}
 
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("https://adventofcode.com/2021/day/%d/input", day), nil)
@@ -187,8 +160,10 @@ func getInput(day int) ([]byte, error) {
 		return nil, err
 	}
 
-	sessionToken := cookies[0].HTTPCookie()
-	req.AddCookie(&sessionToken)
+	req.AddCookie(&http.Cookie{
+		Name:  "session",
+		Value: token,
+	})
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

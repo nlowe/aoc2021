@@ -35,6 +35,7 @@ lines:
 		for _, c := range line {
 			var expected rune
 
+			//nolint:gocritic // The order of these is actually correct, we're checking if the single rune is present.
 			if strings.Contains(openChars, string(c)) {
 				q = append([]rune{mirror(c)}, q...)
 				continue

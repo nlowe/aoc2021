@@ -19,5 +19,7 @@ func aCommand() *cobra.Command {
 }
 
 func partA(challenge *challenge.Input) int {
-	panic("Not implemented!")
+	sum := AddAll(challenge)
+
+	return sum.magnitude()
 }

@@ -19,5 +19,33 @@ func bCommand() *cobra.Command {
 }
 
 func partB(challenge *challenge.Input) int {
-	panic("Not implemented!")
+	lines := challenge.LineSlice()
+
+	largest := 0
+	for _, a := range lines {
+		for _, b := range lines {
+			if a == b {
+				continue
+			}
+
+			aa, _ := Parse(a)
+			bb, _ := Parse(b)
+
+			mag := aa.add(bb).magnitude()
+			if mag > largest {
+				largest = mag
+			}
+
+			// Reset pointers and try the other way around
+			bb, _ = Parse(b)
+			aa, _ = Parse(a)
+
+			mag = bb.add(aa).magnitude()
+			if mag > largest {
+				largest = mag
+			}
+		}
+	}
+
+	return largest
 }

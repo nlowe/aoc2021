@@ -9,11 +9,9 @@ import (
 )
 
 func TestB(t *testing.T) {
-	t.Skipf("Not solved yet")
-
-	input := challenge.FromLiteral("foobar")
+	input := challenge.FromLiteral(example)
 
 	result := partB(input)
 
-	require.Equal(t, 42, result)
+	require.Equal(t, 3993, result)
 }

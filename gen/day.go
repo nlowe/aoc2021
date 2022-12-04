@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -118,7 +117,7 @@ func genDay(n int) {
 			panic(err)
 		}
 
-		if err := ioutil.WriteFile(filepath.Join(p, "input.txt"), problemInput, 0644); err != nil {
+		if err := os.WriteFile(filepath.Join(p, "input.txt"), problemInput, 0644); err != nil {
 			panic(err)
 		}
 	}
@@ -172,11 +171,11 @@ func getInput(day int) ([]byte, error) {
 	defer mustClose(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(resp.Body)
+		body, _ := io.ReadAll(resp.Body)
 		return nil, fmt.Errorf("unexpected status code %s: %s", resp.Status, body)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	return body, err
 }
 

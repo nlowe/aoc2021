@@ -98,17 +98,3 @@ func (c *Input) IntSlice() (result []int) {
 
 	return
 }
-
-func (c *Input) TileMap() *TileMap {
-	lines := c.LineSlice()
-
-	m := NewTileMap(len(lines[0]), len(lines))
-
-	for row, line := range lines {
-		for column, tile := range line {
-			m.SetTile(column, row, tile)
-		}
-	}
-
-	return m
-}

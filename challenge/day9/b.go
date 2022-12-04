@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/nlowe/aoc2021/util/tilemap"
+
 	"github.com/spf13/cobra"
 
 	"github.com/nlowe/aoc2021/challenge"
@@ -26,7 +28,7 @@ type point struct {
 }
 
 func partB(challenge *challenge.Input) int {
-	cave := challenge.TileMap()
+	cave := tilemap.FromInputOf[int](challenge, util.MustSingleDigitAToI)
 
 	_, lowPoints := findLowPoints(cave)
 
@@ -39,7 +41,7 @@ func partB(challenge *challenge.Input) int {
 	return sizes[0] * sizes[1] * sizes[2]
 }
 
-func basinSize(m *challenge.TileMap, low point) int {
+func basinSize(m *tilemap.TileMap[int], low point) int {
 	// Keep track of points in this basin, starting with the low point
 	seen := map[point]struct{}{low: {}}
 
@@ -63,13 +65,12 @@ func basinSize(m *challenge.TileMap, low point) int {
 		}
 
 		// Is this point outside the cave?
-		pv, ok := m.TileAt(p.x, p.y)
+		v, ok := m.TileAt(p.x, p.y)
 		if !ok {
 			continue
 		}
 
 		// Any point with a height 9 does not belong to any basin
-		v := util.MustAtoI(string(pv))
 		if v == 9 {
 			continue
 		}

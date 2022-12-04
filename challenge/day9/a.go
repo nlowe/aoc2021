@@ -3,6 +3,8 @@ package day9
 import (
 	"fmt"
 
+	"github.com/nlowe/aoc2021/util/tilemap"
+
 	"github.com/spf13/cobra"
 
 	"github.com/nlowe/aoc2021/challenge"
@@ -20,11 +22,11 @@ func aCommand() *cobra.Command {
 }
 
 func partA(challenge *challenge.Input) int {
-	risk, _ := findLowPoints(challenge.TileMap())
+	risk, _ := findLowPoints(tilemap.FromInputOf[int](challenge, util.MustSingleDigitAToI))
 	return risk
 }
 
-func findLowPoints(cave *challenge.TileMap) (risk int, lowPoints []point) {
+func findLowPoints(cave *tilemap.TileMap[int]) (risk int, lowPoints []point) {
 	w, h := cave.Size()
 
 	for x := 0; x < w; x++ {
@@ -34,22 +36,21 @@ func findLowPoints(cave *challenge.TileMap) (risk int, lowPoints []point) {
 			down, dok := cave.TileAt(x, y+1)
 			left, lok := cave.TileAt(x-1, y)
 
-			cur, _ := cave.TileAt(x, y)
-			c := util.MustAtoI(string(cur))
+			c, _ := cave.TileAt(x, y)
 
-			if uok && c >= util.MustAtoI(string(up)) {
+			if uok && c >= up {
 				continue
 			}
 
-			if rok && c >= util.MustAtoI(string(right)) {
+			if rok && c >= right {
 				continue
 			}
 
-			if dok && c >= util.MustAtoI(string(down)) {
+			if dok && c >= down {
 				continue
 			}
 
-			if lok && c >= util.MustAtoI(string(left)) {
+			if lok && c >= left {
 				continue
 			}
 
